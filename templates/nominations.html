@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1>Номинации</h1>
+        <p>Ознакомьтесь с критериями оценки. Для голосования перейдите на страницу номинации.</p>
+    </div>
+
+    <div class="accordion-container">
+        {% for nom, artists in nominations.items() %}
+        <div class="accordion-item">
+            <!-- Заголовок (кнопка для раскрытия) -->
+            <button class="accordion-header" onclick="toggleAccordion(this)">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <!-- Номер номинации (01, 02 и т.д.) -->
+                    <div class="nom-number">{{ "%02d" | format(loop.index) }}</div>
+                    <div style="text-align: left;">
+                        <!-- Английское название (основное) -->
+                        <span class="nom-title">{{ nom }}</span>
+                        <!-- Русский перевод-подпись (можно добавить вручную или через словарь) -->
+                        <span class="nom-subtitle">Критерии оценки</span>
+                    </div>
+                </div>
+                <span class="icon">▼</span>
+            </button>
+            
+            <!-- Выпадающее содержимое -->
+            <div class="accordion-content">
+                <div class="criteria-list">
+                    <p class="criteria-title">Критерии оценки:</p>
+                    
+                    <div class="criteria-row">
+                        <div class="criteria-labels">
+                            <span>Оценка жюри</span>
+                            <span class="percent">40%</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+                    </div>
+
+                    <div class="criteria-row">
+                        <div class="criteria-labels">
+                            <span>Вовлеченность аудитории</span>
+                            <span class="percent">30%</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
+                    </div>
+
+                    <div class="criteria-row">
+                        <div class="criteria-labels">
+                            <span>Голосование фанатов</span>
+                            <span class="percent">30%</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
+                    </div>
+
+                    <!-- Кнопка перехода на страницу голосования -->
+                    <a href="/vote/{{ nom }}" class="btn-goto-vote">Перейти к голосованию</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        .accordion-container { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .accordion-item { border: 1px solid rgba(229, 192, 123, 0.2); background: rgba(255, 255, 255, 0.02); border-radius: 4px; overflow: hidden; }
+        
+        .accordion-header {
+            width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; background: transparent; border: none; color: #fff;
+            cursor: pointer; transition: background 0.3s; text-align: left;
+        }
+        .accordion-header:hover { background: rgba(229, 192, 123, 0.05); }
+
+        /* Стили для номеров и заголовков */
+        .nom-number { 
+            background: linear-gradient(135deg, #e5c07b, #d4a352); 
+            color: #08080a; font-weight: bold; font-size: 1.2rem; 
+            padding: 10px; border-radius: 4px; min-width: 50px; text-align: center;
+        }
+        .nom-title { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: #fff; }
+        .nom-subtitle { display: block; font-size: 0.75rem; color: #e5c07b; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+        
+        .icon { color: #e5c07b; font-size: 0.8rem; transition: transform 0.3s; }
+        .accordion-header.active .icon { transform: rotate(180deg); }
+
+        /* Содержимое */
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: rgba(0, 0, 0, 0.3); }
+        .criteria-list { padding: 20px; }
+
+        .criteria-title { font-size: 0.85rem; color: #e5c07b; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .criteria-row { margin-bottom: 15px; }
+        .criteria-labels { display: flex; justify-content: space-between; font-size: 0.85rem; color: #ccc; margin-bottom: 5px; }
+        .percent { color: #e5c07b; font-weight: bold; }
+        
+        /* Полоски прогресса */
+        .progress-bar { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #e5c07b, #f3d79b); border-radius: 3px; }
+
+        /* Кнопка */
+        .btn-goto-vote {
+            display: block; width: 100%; text-align: center; padding: 12px;
+            background: transparent; border: 1px solid #e5c07b; color: #e5c07b;
+            text-decoration: none; font-size: 0.8rem; text-transform: uppercase;
+            letter-spacing: 2px; transition: all 0.3s; margin-top: 25px; border-radius: 4px;
+        }
+        .btn-goto-vote:hover { background: #e5c07b; color: #08080a; }
+    </style>
+
+    <script>
+        function toggleAccordion(button) {
+            button.classList.toggle("active");
+            var content = button.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h1 style="margin: 0;">Управление голосами</h1>
+        <a href="/" style="color: #e5c07b; font-size: 0.8rem; text-decoration: none;">Выйти на главную</a>
+    </div>
+
+    <!-- Сброс всей премии -->
+    <div style="background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); padding: 20px; border-radius: 4px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 style="color: #ff4444; margin-bottom: 5px;">Опасная зона!</h3>
+            <p style="font-size: 0.8rem; margin: 0;">Полностью сбросить голоса за ВСЮ премию.</p>
+        </div>
+        <form action="/admin/reset/all" method="POST" onsubmit="return confirm('Вы уверены? Это удалит ВСЕ голоса!');">
+            <button type="submit" style="background: #ff4444; color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 4px;">Сбросить всё</button>
+        </form>
+    </div>
+
+    <!-- Статистика по номинациям -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        {% for nom, artists in stats.items() %}
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(229, 192, 123, 0.2); padding: 20px; border-radius: 4px;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                <h2 style="font-size: 1.2rem; margin: 0;">{{ nom }}</h2>
+                <form action="/admin/reset/nomination/{{ nom }}" method="POST" onsubmit="return confirm('Сбросить голоса во всей номинации?');">
+                    <button type="submit" style="background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 5px 10px; font-size: 0.7rem; cursor: pointer; border-radius: 4px;">Сбросить номинацию</button>
+                </form>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                {% for artist, count in artists.items() %}
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 4px;">
+                    <div>
+                        <span style="color: #fff; font-weight: 500;">{{ artist }}</span>
+                        <span style="color: #e5c07b; font-size: 0.8rem; margin-left: 10px;">{{ count }} голосов</span>
+                    </div>
+                    <form action="/admin/reset/artist/{{ nom }}/{{ artist }}" method="POST" onsubmit="return confirm('Аннулировать голоса этого артиста?');">
+                        <button type="submit" style="background: transparent; border: none; color: #888; text-decoration: underline; cursor: pointer; font-size: 0.8rem;">Аннулировать</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

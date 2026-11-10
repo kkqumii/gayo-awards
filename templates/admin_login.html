@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 50px auto; text-align: center;">
+        <h1>Админ-панель</h1>
+        <p>Введите пароль для управления голосами</p>
+        
+        {% if error %}
+            <div style="background: rgba(255,0,0,0.1); border: 1px solid red; color: red; padding: 10px; margin-bottom: 20px;">
+                {{ error }}
+            </div>
+        {% endif %}
+	<form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+    <input type="text" name="username" placeholder="Логин" required 
+           style="padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(229, 192, 123, 0.3); color: #fff; border-radius: 4px; outline: none;">
+    <input type="password" name="password" placeholder="Пароль" required 
+           style="padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(229, 192, 123, 0.3); color: #fff; border-radius: 4px; outline: none;">
+    <button type="submit" class="btn">Войти</button>
+	</form>
+    </div>
+{% endblock %}
