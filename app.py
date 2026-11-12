@@ -100,7 +100,8 @@ def vote(nomination):
 ADMINS = {
     "Dora": "doradura123",
     "Reo": "aaaagayoblin123",
-    "Jenna": "reopidoras123"
+    "Jenna": "reopidoras123",
+    "Arisu": "ahhhh123"
 }
 
 
