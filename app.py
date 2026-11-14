@@ -134,52 +134,52 @@ def about():
 
 @app.route('/nominations')
 def nominations():
-    # Нам не нужно передавать голоса сюда, только список названий номинаций
     return render_template('nominations.html', nominations=nominations_data)
 
 
 @app.route('/vote/<nomination>', methods=['GET', 'POST'])
 def vote(nomination):
+    global CURRENT_VOTING_ROUND
     if nomination not in nominations_data:
         return "Номинация не найдена", 404
 
+    # Достаем список артистов из вложенного словаря
+    artists_list = nominations_data[nomination]["artists"]
+
     if request.method == 'POST':
         artist = request.form.get('artist')
-
+        
         if 'voted' not in session:
             session['voted'] = []
-
-        # Если пользователь еще не голосовал в этой номинации
-        if nomination not in session['voted']:
-            if artist in nominations_data[nomination]:
-                # Сохраняем голос в базу данных!
+            
+        vote_marker = f"{CURRENT_VOTING_ROUND}_{nomination}"
+        
+        if vote_marker not in session['voted']:
+            if artist in artists_list:
                 new_vote = Vote(nomination=nomination, artist=artist)
                 db.session.add(new_vote)
                 db.session.commit()
-
-                # Запоминаем в сессии, что голос отдан
-                session['voted'].append(nomination)
+                session['voted'].append(vote_marker)
                 session.modified = True
                 return redirect(url_for('vote', nomination=nomination, success=1))
         else:
             return redirect(url_for('vote', nomination=nomination, error="Вы уже проголосовали в этой номинации!"))
 
-    # Считаем голоса для каждого артиста в этой номинации из базы данных
-    artists = nominations_data[nomination]
+    # Считаем голоса только для артистов из этой номинации
     votes = {}
-    for artist in artists:
-        # Ищем в базе все записи с этой номинацией и этим артистом и считаем их количество
+    for artist in artists_list:
         count = Vote.query.filter_by(nomination=nomination, artist=artist).count()
         votes[artist] = count
 
-    has_voted = 'voted' in session and nomination in session['voted']
-
-    return render_template('vote.html',
-                           nomination=nomination,
-                           artists=artists,
+    vote_marker = f"{CURRENT_VOTING_ROUND}_{nomination}"
+    has_voted = 'voted' in session and vote_marker in session['voted']
+    
+    return render_template('vote.html', 
+                           nomination=nomination, 
+                           artists=artists_list, 
                            votes=votes,
-                           has_voted=has_voted)
-
+                           has_voted=has_voted,
+                           nominations_data=nominations_data) # Передаем весь словарь для доступа к desc
 
 # Пароль для входа в админку (по умолчанию 'admin123', но лучше поменяй!)
 # Список админов: логин - пароль
