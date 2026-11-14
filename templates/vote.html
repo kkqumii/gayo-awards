@@ -4,9 +4,10 @@
     <div style="margin-bottom: 30px;">
         <a href="/nominations" style="color: #e5c07b; text-decoration: none; font-size: 0.8rem; text-transform: uppercase;">← Назад к номинациям</a>
         <h1 style="margin-top: 15px;">{{ nomination }}</h1>
+        <p style="color: #a0a0a0; font-size: 0.9rem;">{{ nominations_data[nomination]['desc'] }}</p>
     </div>
     
-    <!-- Вывод сообщений -->
+    <!-- Вывод сообщений об успехе/ошибке -->
     {% if request.args.get('success') %}
         <div class="message success" style="background: rgba(229, 192, 123, 0.1); border: 1px solid #e5c07b; color: #e5c07b; padding: 15px; margin-bottom: 20px; font-size: 0.9rem;">
             Ваш голос успешно засчитан!
@@ -18,7 +19,6 @@
         </div>
     {% endif %}
 
-    <!-- Блок с информацией о голосовании -->
     {% if has_voted and not request.args.get('success') %}
         <div class="message success" style="background: rgba(229, 192, 123, 0.1); border: 1px solid #e5c07b; color: #e5c07b; padding: 15px; margin-bottom: 20px; font-size: 0.9rem;">
             Вы уже сделали свой выбор в этой номинации. Спасибо за голос!
@@ -26,6 +26,7 @@
     {% endif %}
 
     <div style="display: flex; flex-direction: column; gap: 15px;">
+        <!-- Цикл теперь по data.artists -->
         {% for artist in artists %}
             <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(229, 192, 123, 0.3); padding: 25px 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
                 <div>
@@ -33,7 +34,6 @@
                     <p style="color: #888; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Голосов: {{ votes[artist] }}</p>
                 </div>
                 
-                <!-- Показываем кнопку только если пользователь еще НЕ голосовал -->
                 {% if not has_voted %}
                     <form method="POST">
                         <input type="hidden" name="artist" value="{{ artist }}">
