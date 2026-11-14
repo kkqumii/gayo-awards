@@ -182,20 +182,31 @@ def vote(nomination):
         else:
             return redirect(url_for('vote', nomination=nomination, error="Вы уже проголосовали!"))
 
-    # 4. Считаем голоса
+        # 4. Считаем голоса и проценты
     votes = {}
+    total_votes = 0
     for artist in artists_list:
         count = Vote.query.filter_by(nomination=nomination, artist=artist).count()
         votes[artist] = count
+        total_votes += count
+
+    # Считаем проценты для каждого артиста
+    percentages = {}
+    for artist in artists_list:
+        if total_votes > 0:
+            percentages[artist] = round((votes[artist] / total_votes) * 100)
+        else:
+            percentages[artist] = 0
 
     # 5. Проверяем статус для отображения кнопок
     vote_marker = f"{current_round}_{nomination}"
     has_voted = 'voted' in session and vote_marker in session['voted']
     
-    return render_template('vote.html', 
+       return render_template('vote.html', 
                            nomination=nomination, 
                            artists=artists_list, 
                            votes=votes,
+                           percentages=percentages,
                            has_voted=has_voted,
                            nominations_data=nominations_data)
 
