@@ -7,53 +7,35 @@
     </div>
 
     <div class="accordion-container">
-        {% for nom, artists in nominations.items() %}
+        {% for nom, data in nominations.items() %}
         <div class="accordion-item">
-            <!-- Заголовок (кнопка для раскрытия) -->
             <button class="accordion-header" onclick="toggleAccordion(this)">
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <!-- Номер номинации (01, 02 и т.д.) -->
                     <div class="nom-number">{{ "%02d" | format(loop.index) }}</div>
                     <div style="text-align: left;">
-                        <!-- Английское название (основное) -->
                         <span class="nom-title">{{ nom }}</span>
-                        <!-- Русский перевод-подпись (можно добавить вручную или через словарь) -->
-                        <span class="nom-subtitle">Критерии оценки</span>
+                        <!-- Выводим описание номинации -->
+                        <span class="nom-subtitle" style="text-transform: none; color: #a0a0a0; font-size: 0.8rem;">{{ data.desc }}</span>
                     </div>
                 </div>
                 <span class="icon">▼</span>
             </button>
             
-            <!-- Выпадающее содержимое -->
             <div class="accordion-content">
                 <div class="criteria-list">
                     <p class="criteria-title">Критерии оценки:</p>
                     
+                    <!-- Цикл по критериям -->
+                    {% for crit_name, percent in data.criteria %}
                     <div class="criteria-row">
                         <div class="criteria-labels">
-                            <span>Оценка жюри</span>
-                            <span class="percent">40%</span>
+                            <span>{{ crit_name }}</span>
+                            <span class="percent">{{ percent }}%</span>
                         </div>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: {{ percent }}%;"></div></div>
                     </div>
+                    {% endfor %}
 
-                    <div class="criteria-row">
-                        <div class="criteria-labels">
-                            <span>Вовлеченность аудитории</span>
-                            <span class="percent">30%</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
-                    </div>
-
-                    <div class="criteria-row">
-                        <div class="criteria-labels">
-                            <span>Голосование фанатов</span>
-                            <span class="percent">30%</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
-                    </div>
-
-                    <!-- Кнопка перехода на страницу голосования -->
                     <a href="/vote/{{ nom }}" class="btn-goto-vote">Перейти к голосованию</a>
                 </div>
             </div>
