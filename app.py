@@ -150,7 +150,7 @@ def vote(nomination):
 
     artists_list = nominations_data[nomination]["artists"]
     
-    # Получаем текущий раунд из базы данных (если нет, создаем "round_1")
+    # 1. Получаем текущий раунд из базы
     round_setting = Setting.query.get('current_round')
     if not round_setting:
         round_setting = Setting(key='current_round', value='round_1')
@@ -158,12 +158,17 @@ def vote(nomination):
         db.session.commit()
     current_round = round_setting.value
 
+    # 2. ПРОВЕРКА: Если в сессии сохранен старый раунд — очищаем историю голосов
+    if session.get('session_round') != current_round:
+        session['voted'] = [] # Очищаем все прошлые голоса
+        session['session_round'] = current_round # Запоминаем новый раунд в браузере
+
+    # 3. Обработка самого голосования
     if request.method == 'POST':
         artist = request.form.get('artist')
         if 'voted' not in session:
             session['voted'] = []
             
-        # Проверяем маркер с учетом раунда из БАЗЫ
         vote_marker = f"{current_round}_{nomination}"
         
         if vote_marker not in session['voted']:
@@ -177,11 +182,13 @@ def vote(nomination):
         else:
             return redirect(url_for('vote', nomination=nomination, error="Вы уже проголосовали!"))
 
+    # 4. Считаем голоса
     votes = {}
     for artist in artists_list:
         count = Vote.query.filter_by(nomination=nomination, artist=artist).count()
         votes[artist] = count
 
+    # 5. Проверяем статус для отображения кнопок
     vote_marker = f"{current_round}_{nomination}"
     has_voted = 'voted' in session and vote_marker in session['voted']
     
