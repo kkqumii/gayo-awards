@@ -5,10 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = 'gayo_awards_super_secret_key'
 
-# Настройка базы данных (создаст файл gayo.db в папке проекта)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gayo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+CURRENT_VOTING_ROUND = "round_1"
 
 
 # Модель (таблица) для хранения голосов
@@ -47,17 +48,17 @@ nominations_data = {
     },
     "Best Group": {
         "desc": "Лучшая группа по итогам года",
-        "criteria": [("Жюри", 50), ("Цифровая Активность", 50)], # Заглушка
+        "criteria": [("Жюри", 50), ("Цифровая Активность", 50)],  # Заглушка
         "artists": ["Группа 1", "Группа 2"]
     },
     "Best Soloist": {
         "desc": "Лучший солист по итогам года",
-        "criteria": [("Жюри", 50), ("Голосование", 50)], # Заглушка
+        "criteria": [("Жюри", 50), ("Голосование", 50)],  # Заглушка
         "artists": ["Солист 1", "Солист 2"]
     },
     "Best Musical Recording": {
         "desc": "Лучший результат работы всей команды над одной записью",
-        "criteria": [("Жюри", 100)], # Заглушка
+        "criteria": [("Жюри", 100)],  # Заглушка
         "artists": ["Запись 1", "Запись 2"]
     },
     "Best Vocal Performance": {
@@ -148,12 +149,12 @@ def vote(nomination):
 
     if request.method == 'POST':
         artist = request.form.get('artist')
-        
+
         if 'voted' not in session:
             session['voted'] = []
-            
+
         vote_marker = f"{CURRENT_VOTING_ROUND}_{nomination}"
-        
+
         if vote_marker not in session['voted']:
             if artist in artists_list:
                 new_vote = Vote(nomination=nomination, artist=artist)
@@ -173,13 +174,14 @@ def vote(nomination):
 
     vote_marker = f"{CURRENT_VOTING_ROUND}_{nomination}"
     has_voted = 'voted' in session and vote_marker in session['voted']
-    
-    return render_template('vote.html', 
-                           nomination=nomination, 
-                           artists=artists_list, 
+
+    return render_template('vote.html',
+                           nomination=nomination,
+                           artists=artists_list,
                            votes=votes,
                            has_voted=has_voted,
-                           nominations_data=nominations_data) # Передаем весь словарь для доступа к desc
+                           nominations_data=nominations_data)  # Передаем весь словарь для доступа к desc
+
 
 # Пароль для входа в админку (по умолчанию 'admin123', но лучше поменяй!)
 # Список админов: логин - пароль
@@ -213,16 +215,17 @@ def admin_login():
 def admin_panel():
     if not session.get('is_admin'):
         return redirect(url_for('admin_login'))
-    
+
     stats = {}
     for nom, data in nominations_data.items():
         stats[nom] = {}
         # Берем список артистов из ключа "artists"
-        for artist in data["artists"]: 
+        for artist in data["artists"]:
             count = Vote.query.filter_by(nomination=nom, artist=artist).count()
             stats[nom][artist] = count
 
     return render_template('admin_panel.html', stats=stats)
+
 
 # --- МАРШРУТЫ ДЛЯ УДАЛЕНИЯ ГОЛОСОВ ---
 
