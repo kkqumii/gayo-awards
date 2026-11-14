@@ -7,7 +7,6 @@
         <p style="color: #a0a0a0; font-size: 0.9rem;">{{ nominations_data[nomination]['desc'] }}</p>
     </div>
     
-    <!-- Вывод сообщений об успехе/ошибке -->
     {% if request.args.get('success') %}
         <div class="message success" style="background: rgba(229, 192, 123, 0.1); border: 1px solid #e5c07b; color: #e5c07b; padding: 15px; margin-bottom: 20px; font-size: 0.9rem;">
             Ваш голос успешно засчитан!
@@ -26,7 +25,6 @@
     {% endif %}
 
     <div style="display: flex; flex-direction: column; gap: 15px;">
-        <!-- Цикл теперь по data.artists -->
         {% for artist in artists %}
             <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(229, 192, 123, 0.3); padding: 25px 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
                 <div>
