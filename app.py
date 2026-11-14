@@ -18,6 +18,11 @@ class Vote(db.Model):
     nomination = db.Column(db.String(100), nullable=False)
     artist = db.Column(db.String(100), nullable=False)
 
+# КЛАСС ДЛЯ ХРАНЕНИЯ НАСТРОЕК (включая раунд)
+class Setting(db.Model):
+    key = db.Column(db.String(50), primary_key=True)
+    value = db.Column(db.String(100), nullable=False)
+
 
 # Список номинаций и артистов (как и раньше)
 nominations_data = {
@@ -140,21 +145,27 @@ def nominations():
 
 @app.route('/vote/<nomination>', methods=['GET', 'POST'])
 def vote(nomination):
-    global CURRENT_VOTING_ROUND
     if nomination not in nominations_data:
         return "Номинация не найдена", 404
 
-    # Достаем список артистов из вложенного словаря
     artists_list = nominations_data[nomination]["artists"]
+    
+    # Получаем текущий раунд из базы данных (если нет, создаем "round_1")
+    round_setting = Setting.query.get('current_round')
+    if not round_setting:
+        round_setting = Setting(key='current_round', value='round_1')
+        db.session.add(round_setting)
+        db.session.commit()
+    current_round = round_setting.value
 
     if request.method == 'POST':
         artist = request.form.get('artist')
-
         if 'voted' not in session:
             session['voted'] = []
-
-        vote_marker = f"{CURRENT_VOTING_ROUND}_{nomination}"
-
+            
+        # Проверяем маркер с учетом раунда из БАЗЫ
+        vote_marker = f"{current_round}_{nomination}"
+        
         if vote_marker not in session['voted']:
             if artist in artists_list:
                 new_vote = Vote(nomination=nomination, artist=artist)
@@ -164,23 +175,22 @@ def vote(nomination):
                 session.modified = True
                 return redirect(url_for('vote', nomination=nomination, success=1))
         else:
-            return redirect(url_for('vote', nomination=nomination, error="Вы уже проголосовали в этой номинации!"))
+            return redirect(url_for('vote', nomination=nomination, error="Вы уже проголосовали!"))
 
-    # Считаем голоса только для артистов из этой номинации
     votes = {}
     for artist in artists_list:
         count = Vote.query.filter_by(nomination=nomination, artist=artist).count()
         votes[artist] = count
 
-    vote_marker = f"{CURRENT_VOTING_ROUND}_{nomination}"
+    vote_marker = f"{current_round}_{nomination}"
     has_voted = 'voted' in session and vote_marker in session['voted']
-
-    return render_template('vote.html',
-                           nomination=nomination,
-                           artists=artists_list,
+    
+    return render_template('vote.html', 
+                           nomination=nomination, 
+                           artists=artists_list, 
                            votes=votes,
                            has_voted=has_voted,
-                           nominations_data=nominations_data)  # Передаем весь словарь для доступа к desc
+                           nominations_data=nominations_data)
 
 
 # Пароль для входа в админку (по умолчанию 'admin123', но лучше поменяй!)
@@ -232,27 +242,38 @@ def admin_panel():
 @app.route('/admin/reset/artist/<nomination>/<artist>', methods=['POST'])
 def reset_artist(nomination, artist):
     if not session.get('is_admin'): return abort(403)
-
-    # Удаляем все записи этого артиста в этой номинации
     Vote.query.filter_by(nomination=nomination, artist=artist).delete()
+    
+    # Меняем раунд в базе
+    round_setting = Setting.query.get('current_round')
+    round_setting.value = f"round_{os.urandom(4).hex()}"
+    
     db.session.commit()
     return redirect(url_for('admin_panel'))
-
 
 @app.route('/admin/reset/nomination/<nomination>', methods=['POST'])
 def reset_nomination(nomination):
     if not session.get('is_admin'): return abort(403)
-
-    # Удаляем все записи в этой номинации
     Vote.query.filter_by(nomination=nomination).delete()
+    
+    # Меняем раунд в базе
+    round_setting = Setting.query.get('current_round')
+    round_setting.value = f"round_{os.urandom(4).hex()}"
+    
     db.session.commit()
     return redirect(url_for('admin_panel'))
-
 
 @app.route('/admin/reset/all', methods=['POST'])
 def reset_all():
     if not session.get('is_admin'): return abort(403)
-
+    Vote.query.delete()
+    
+    # Меняем раунд в базе
+    round_setting = Setting.query.get('current_round')
+    round_setting.value = f"round_{os.urandom(4).hex()}"
+    
+    db.session.commit()
+    return redirect(url_for('admin_panel'))
     # Удаляем вообще ВСЕ голоса из базы (сброс премии)
     Vote.query.delete()
     db.session.commit()
