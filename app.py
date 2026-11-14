@@ -211,20 +211,18 @@ def admin_login():
 
 @app.route('/admin/panel')
 def admin_panel():
-    # Проверка, что это админ
     if not session.get('is_admin'):
         return redirect(url_for('admin_login'))
-
-    # Собираем всю статистику для панели
+    
     stats = {}
-    for nom, artists in nominations_data.items():
+    for nom, data in nominations_data.items():
         stats[nom] = {}
-        for artist in artists:
+        # Берем список артистов из ключа "artists"
+        for artist in data["artists"]: 
             count = Vote.query.filter_by(nomination=nom, artist=artist).count()
             stats[nom][artist] = count
 
     return render_template('admin_panel.html', stats=stats)
-
 
 # --- МАРШРУТЫ ДЛЯ УДАЛЕНИЯ ГОЛОСОВ ---
 
