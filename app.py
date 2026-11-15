@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'gayo_awards_super_secret_key'
-
+DEADLINE = datetime.fromisoformat("2026-12-04T21:00:00+03:00")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gayo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -18,6 +18,7 @@ class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nomination = db.Column(db.String(100), nullable=False)
     artist = db.Column(db.String(100), nullable=False)
+
 
 # КЛАСС ДЛЯ ХРАНЕНИЯ НАСТРОЕК (включая раунд)
 class Setting(db.Model):
@@ -150,7 +151,7 @@ def vote(nomination):
         return "Номинация не найдена", 404
 
     artists_list = nominations_data[nomination]["artists"]
-    
+
     # 1. Получаем текущий раунд из базы
     round_setting = Setting.query.get('current_round')
     if not round_setting:
@@ -169,7 +170,7 @@ def vote(nomination):
             return redirect(url_for('vote', nomination=nomination, error="Голосование уже завершено!"))
 
         artist = request.form.get('artist')
-        
+
         # Очистка старых голосов, если админ менял раунд
         if session.get('session_round') != current_round:
             session['voted'] = []
@@ -177,9 +178,9 @@ def vote(nomination):
 
         if 'voted' not in session:
             session['voted'] = []
-            
+
         vote_marker = f"{current_round}_{nomination}"
-        
+
         if vote_marker not in session['voted']:
             if artist in artists_list:
                 new_vote = Vote(nomination=nomination, artist=artist)
@@ -209,11 +210,11 @@ def vote(nomination):
     # 5. Проверяем статус
     vote_marker = f"{current_round}_{nomination}"
     has_voted = 'voted' in session and vote_marker in session['voted']
-    
+
     # 6. Передаем ВСЁ в шаблон
-    return render_template('vote.html', 
-                           nomination=nomination, 
-                           artists=artists_list, 
+    return render_template('vote.html',
+                           nomination=nomination,
+                           artists=artists_list,
                            votes=votes,
                            percentages=percentages,
                            has_voted=has_voted,
@@ -270,35 +271,37 @@ def admin_panel():
 def reset_artist(nomination, artist):
     if not session.get('is_admin'): return abort(403)
     Vote.query.filter_by(nomination=nomination, artist=artist).delete()
-    
+
     # Меняем раунд в базе
     round_setting = Setting.query.get('current_round')
     round_setting.value = f"round_{os.urandom(4).hex()}"
-    
+
     db.session.commit()
     return redirect(url_for('admin_panel'))
+
 
 @app.route('/admin/reset/nomination/<nomination>', methods=['POST'])
 def reset_nomination(nomination):
     if not session.get('is_admin'): return abort(403)
     Vote.query.filter_by(nomination=nomination).delete()
-    
+
     # Меняем раунд в базе
     round_setting = Setting.query.get('current_round')
     round_setting.value = f"round_{os.urandom(4).hex()}"
-    
+
     db.session.commit()
     return redirect(url_for('admin_panel'))
+
 
 @app.route('/admin/reset/all', methods=['POST'])
 def reset_all():
     if not session.get('is_admin'): return abort(403)
     Vote.query.delete()
-    
+
     # Меняем раунд в базе
     round_setting = Setting.query.get('current_round')
     round_setting.value = f"round_{os.urandom(4).hex()}"
-    
+
     db.session.commit()
     return redirect(url_for('admin_panel'))
     # Удаляем вообще ВСЕ голоса из базы (сброс премии)
