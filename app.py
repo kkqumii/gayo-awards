@@ -158,14 +158,22 @@ def vote(nomination):
         db.session.commit()
     current_round = round_setting.value
 
-    # 2. ПРОВЕРКА: Если в сессии сохранен старый раунд — очищаем историю голосов
-    if session.get('session_round') != current_round:
-        session['voted'] = [] # Очищаем все прошлые голоса
-        session['session_round'] = current_round # Запоминаем новый раунд в браузере
+    # 2. Проверяем, не закончилось ли время (таймер)
+    now = datetime.now(timezone.utc)
+    is_closed = now > DEADLINE
 
-    # 3. Обработка самого голосования
+    # 3. Обработка голосования
     if request.method == 'POST':
+        if is_closed:
+            return redirect(url_for('vote', nomination=nomination, error="Голосование уже завершено!"))
+
         artist = request.form.get('artist')
+        
+        # Очистка старых голосов, если админ менял раунд
+        if session.get('session_round') != current_round:
+            session['voted'] = []
+            session['session_round'] = current_round
+
         if 'voted' not in session:
             session['voted'] = []
             
@@ -182,7 +190,7 @@ def vote(nomination):
         else:
             return redirect(url_for('vote', nomination=nomination, error="Вы уже проголосовали!"))
 
-        # 4. Считаем голоса и проценты
+    # 4. Считаем голоса и ПРОЦЕНТЫ для полосок
     votes = {}
     total_votes = 0
     for artist in artists_list:
@@ -190,7 +198,6 @@ def vote(nomination):
         votes[artist] = count
         total_votes += count
 
-    # Считаем проценты для каждого артиста
     percentages = {}
     for artist in artists_list:
         if total_votes > 0:
@@ -198,20 +205,21 @@ def vote(nomination):
         else:
             percentages[artist] = 0
 
-    # 5. Проверяем статус для отображения кнопок
+    # 5. Проверяем статус
     vote_marker = f"{current_round}_{nomination}"
     has_voted = 'voted' in session and vote_marker in session['voted']
     
-       return render_template('vote.html', 
+    # 6. Передаем ВСЁ в шаблон
+    return render_template('vote.html', 
                            nomination=nomination, 
                            artists=artists_list, 
                            votes=votes,
                            percentages=percentages,
                            has_voted=has_voted,
+                           is_closed=is_closed,
                            nominations_data=nominations_data)
 
 
-# Пароль для входа в админку (по умолчанию 'admin123', но лучше поменяй!)
 # Список админов: логин - пароль
 ADMINS = {
     "Dora": "doradura123",
