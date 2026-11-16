@@ -221,6 +221,9 @@ def vote(nomination):
                            is_closed=is_closed,
                            nominations_data=nominations_data)
 
+@app.route('/academy')
+def academy():
+    return render_template('academy.html')
 
 # Список админов: логин - пароль
 ADMINS = {
@@ -229,6 +232,7 @@ ADMINS = {
     "Jenna": "reopidoras123",
     "Arisu": "ahhhh123"
 }
+
 
 
 @app.route('/admin', methods=['GET', 'POST'])
