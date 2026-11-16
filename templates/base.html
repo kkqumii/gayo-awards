@@ -108,6 +108,82 @@
             justify-content: center;
         }
 
+        /* СТИЛИ ДЛЯ ВЫПАДАЮЩЕГО МЕНЮ (ДЕСКТОП) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown .dropbtn {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .dropdown:hover .dropbtn {
+            color: #e5c07b;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #1a1c23;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+            z-index: 1;
+            border: 1px solid rgba(229, 192, 123, 0.2);
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .dropdown-content a {
+            color: #a0a0a0;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            margin-left: 0;
+            font-size: 0.75rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: rgba(229, 192, 123, 0.1);
+            color: #e5c07b;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Мобильная адаптация для выпадающего списка */
+        @media (max-width: 767px) {
+            .dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .dropdown .dropbtn {
+                margin-left: 0;
+                font-size: 1rem;
+                display: block;
+                padding: 15px 0;
+            }
+            .dropdown-content {
+                position: static;
+                display: block;
+                box-shadow: none;
+                border: none;
+                background: transparent;
+                margin-top: 0;
+            }
+            .dropdown-content a {
+                padding: 10px 0;
+                color: #888;
+            }
+        }
         .timer-container {
             background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(229, 192, 123, 0.05));
             border: 1px solid rgba(229, 192, 123, 0.3);
@@ -262,10 +338,10 @@
 </head>
 <body>
 
-        <nav>
+            <nav>
         <a href="/" class="logo">GAYO AWARDS</a>
         
-        <!-- Кнопка (видна только на телефонах) -->
+        <!-- Кнопка-бургер (видна только на телефонах) -->
         <div class="menu-toggle" onclick="toggleMenu()">
             <span></span>
             <span></span>
@@ -275,8 +351,9 @@
         <!-- Само меню -->
         <div class="nav-links" id="mobile-menu">
             <a href="/">О премии</a>
-            <a href="/academy">Академия</a>
-            <a href="/nominations">Номинации</a>
+	    <a href="/nominations">Номинации</a>
+            <a href="/criteria">Критерии оценивания</a>
+	    <a href="/academy">Об Академии</a>
         </div>
     </nav>
 
