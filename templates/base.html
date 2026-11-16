@@ -8,7 +8,8 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-                body {
+        body {
+            /* Темный градиент как изначально */
             background: radial-gradient(circle at top, #1c1e26 0%, #08080a 100%);
             color: #f8f8f8;
             font-family: 'Montserrat', sans-serif;
@@ -56,7 +57,7 @@
             transition: all 0.3s;
         }
 
-        /* МЕНЮ (для ПК) */
+        /* МЕНЮ */
         .nav-links {
             display: flex;
             gap: 20px;
@@ -75,40 +76,18 @@
             color: #e5c07b;
         }
 
-        /* КНОПКИ-ПЛАШКИ */
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            border: 1px solid #e5c07b;
-            color: #e5c07b;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            background: transparent;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .btn:hover { 
-            background: #e5c07b; 
-            color: #08080a; 
-        }
-
         /* МОБИЛЬНАЯ ВЕРСИЯ */
         @media (max-width: 768px) {
             nav {
-                flex-direction: row-reverse; /* Гамбургер слева */
+                flex-direction: row-reverse;
             }
-            
             .hamburger { display: flex; }
-            
             .nav-links {
                 display: none;
                 flex-direction: column;
                 position: absolute;
                 top: 65px;
-                left: 20px; /* Меню выпадает слева */
+                left: 20px;
                 right: auto;
                 background: #111115;
                 border: 1px solid rgba(229, 192, 123, 0.3);
@@ -117,14 +96,8 @@
                 gap: 15px;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.8);
             }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                font-size: 0.9rem;
-            }
+            .nav-links.active { display: flex; }
+            .nav-links a { font-size: 0.9rem; }
         }
 
         /* ОСНОВНОЙ КОНТЕНТ */
@@ -143,6 +116,9 @@
             font-weight: 600;
         }
 
+        /* ТЕКСТ ПО ЦЕНТРУ */
+        .text-center { text-align: center; }
+
         /* ГРАДИЕНТНЫЙ ТЕКСТ */
         .gold-gradient-text {
             background: linear-gradient(90deg, #e5c07b, #f3d79b);
@@ -153,6 +129,24 @@
             display: inline-block;
         }
 
+        /* КНОПКИ */
+        .btn-wrapper { text-align: center; margin: 30px 0; }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid #e5c07b;
+            color: #e5c07b;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .btn:hover { background: #e5c07b; color: #08080a; }
+
         /* ТАЙМЕР */
         .timer-wrapper { padding: 20px 20px 0 20px; display: flex; justify-content: center; }
         .timer-container { background: #111115; border: 1px solid rgba(229, 192, 123, 0.3); border-radius: 8px; padding: 20px 30px; width: 100%; max-width: 600px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
@@ -162,31 +156,20 @@
         .time-number { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: #e5c07b; line-height: 1; margin-bottom: 5px; text-shadow: 0 0 15px rgba(229, 192, 123, 0.3); }
         .time-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* КАРТОЧКИ (Команда и Ценности) */
-        .card { 
-            background: #111115; 
-            border: 1px solid rgba(229, 192, 123, 0.15); 
-            padding: 20px; 
-            margin-bottom: 15px; 
-            border-radius: 4px; 
-        }
-        
-                /* Универсальная сетка для карточек */
+        /* СЕТКА КАРТОЧЕК (ДЛЯ КОМАНДЫ И ЦЕННОСТЕЙ) */
         .grid-container { 
             display: grid; 
-            grid-template-columns: 1fr; /* На телефоне 1 колонка */
+            grid-template-columns: 1fr; 
             gap: 20px; 
             width: 100%;
             margin-bottom: 40px;
+            margin-top: 30px;
         }
         
         @media (min-width: 768px) {
-            .grid-container { 
-                grid-template-columns: 1fr 1fr; /* На ПК 2 ровные колонки */
-            }
+            .grid-container { grid-template-columns: 1fr 1fr; }
         }
 
-        /* Карточка */
         .card { 
             background: #111115; 
             border: 1px solid rgba(229, 192, 123, 0.15); 
@@ -196,28 +179,18 @@
             flex-direction: column;
         }
         
-        /* Спец-стиль для ценностей (золотая полоска слева) */
-        .card-accent {
-            border-left: 3px solid #e5c07b;
-        } 
-            }
-        }
+        .card-accent { border-left: 3px solid #e5c07b; }
     </style>
 </head>
 <body>
 
     <nav>
-        <!-- Кнопка-гамбургер (слева на мобилке) -->
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
-
-        <!-- Логотип (с градиентом) -->
         <a href="/" class="logo gold-gradient-text">GAYO AWARDS</a>
-
-        <!-- Ссылки (на ПК справа, на мобилке в выпадающем меню) -->
         <div class="nav-links" id="mobile-menu">
             <a href="/">О премии</a>
             <a href="/academy">GAYO Academy</a>
@@ -225,7 +198,6 @@
         </div>
     </nav>
 
-    <!-- ТАЙМЕР -->
     <div class="timer-wrapper">
         <div class="timer-container">
             <p class="timer-title">До закрытия голосования</p>
@@ -250,19 +222,16 @@
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ БЛОК -->
     <div class="content">
         {% block content %}{% endblock %}
     </div>
 
     <script>
-        // Логика выпадающего меню
         function toggleMenu() {
             var menu = document.getElementById('mobile-menu');
             menu.classList.toggle('active');
         }
 
-        // Логика таймера
         const deadline = new Date("2026-12-04T21:00:00").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
