@@ -171,17 +171,35 @@
             border-radius: 4px; 
         }
         
-        .grid-team { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
+                /* Универсальная сетка для карточек */
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: 1fr; /* На телефоне 1 колонка */
+            gap: 20px; 
+            width: 100%;
+            margin-bottom: 40px;
         }
         
         @media (min-width: 768px) {
-            .grid-team { 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 20px; 
+            .grid-container { 
+                grid-template-columns: 1fr 1fr; /* На ПК 2 ровные колонки */
+            }
+        }
+
+        /* Карточка */
+        .card { 
+            background: #111115; 
+            border: 1px solid rgba(229, 192, 123, 0.15); 
+            padding: 25px; 
+            border-radius: 4px; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Спец-стиль для ценностей (золотая полоска слева) */
+        .card-accent {
+            border-left: 3px solid #e5c07b;
+        } 
             }
         }
     </style>
