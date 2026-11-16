@@ -8,13 +8,12 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-                body {
-            background: radial-gradient(circle at top, #1c1e26 0%, #08080a 100%);
+        body {
+            background-image: linear-gradient(rgba(8, 8, 10, 0.9), rgba(8, 8, 10, 0.9)), url("{{ url_for('static', filename='background.jpg') }}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            
             color: #f8f8f8;
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
@@ -23,15 +22,14 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* МОБИЛЬНАЯ ШАПКА */
+        /* ШАПКА */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px;
             border-bottom: 1px solid rgba(229, 192, 123, 0.15);
-            background: #08080a;
-            backdrop-filter: blur(10px);
+            background: #08080a; 
             position: sticky;
             top: 0;
             z-index: 100;
@@ -41,15 +39,36 @@
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.2rem;
             font-weight: 600;
-            color: #e5c07b;
             text-decoration: none;
             letter-spacing: 2px;
+        }
+
+        /* ГАМБУРГЕР (на компьютере скрыт) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background-color: #e5c07b;
+            transition: all 0.3s;
+        }
+
+        /* МЕНЮ */
+        .nav-links {
+            display: flex;
+            gap: 20px;
         }
 
         .nav-links a {
             color: #a0a0a0;
             text-decoration: none;
-            margin-left: 15px;
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -59,20 +78,39 @@
         .nav-links a:hover {
             color: #e5c07b;
         }
-        
-        .gold-gradient-text {
-            background: linear-gradient(90deg, #e5c07b, #f3d79b); /* Тот же градиент, что и на полосках */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-            display: inline-block; /* Важно, чтобы градиент применялся именно к тексту */
+
+        /* МОБИЛЬНАЯ ВЕРСИЯ */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 65px;
+                right: 20px;
+                background: #111115;
+                border: 1px solid rgba(229, 192, 123, 0.3);
+                padding: 20px;
+                border-radius: 4px;
+                gap: 15px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
         }
-        /* КОНТЕНТ */
+
+        /* ОСНОВНОЙ КОНТЕНТ */
         .content {
             flex: 1;
             padding: 40px 20px;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             width: 100%;
         }
@@ -84,172 +122,54 @@
             font-weight: 600;
         }
 
-        h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; }
-        h2 { font-size: 1.8rem; margin-top: 40px; border-bottom: 1px solid rgba(229, 192, 123, 0.2); padding-bottom: 10px; }
-        h3 { font-size: 1.3rem; color: #fff; }
-
-        p { line-height: 1.6; color: #b0b0b0; margin-bottom: 15px; font-size: 0.95rem; }
-
-        .btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 15px;
-            border: 1px solid #e5c07b;
-            color: #e5c07b;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            background: transparent;
-            cursor: pointer;
-            margin-top: 20px;
+        /* ГРАДИЕНТНЫЙ ТЕКСТ */
+        .gold-gradient-text {
+            background: linear-gradient(90deg, #e5c07b, #f3d79b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            display: inline-block;
         }
-        .btn:hover { background: #e5c07b; color: #08080a; }
-
-        /* КАРТОЧКИ КОМАНДЫ И ЦЕННОСТЕЙ */
-        .card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(229, 192, 123, 0.15);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-        }
-
-        /* ДЕСКТОПНАЯ ВЕРСИЯ (если открыть с компа) */
+        
+        /* ТАЙМЕР И КАРТОЧКИ (оставил как было) */
+        .timer-wrapper { padding: 20px 20px 0 20px; display: flex; justify-content: center; }
+        .timer-container { background: #111115; border: 1px solid rgba(229, 192, 123, 0.3); border-radius: 8px; padding: 20px 30px; width: 100%; max-width: 600px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .timer-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #a0a0a0; margin-bottom: 15px; }
+        .timer-clock { display: flex; justify-content: center; gap: 20px; }
+        .time-box { display: flex; flex-direction: column; align-items: center; }
+        .time-number { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: #e5c07b; line-height: 1; margin-bottom: 5px; text-shadow: 0 0 15px rgba(229, 192, 123, 0.3); }
+        .time-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(229, 192, 123, 0.15); padding: 20px; margin-bottom: 15px; border-radius: 4px; }
+        .grid-team { display: flex; flex-direction: column; gap: 15px; }
+        
         @media (min-width: 768px) {
-            nav { padding: 20px 40px; }
-            .logo { font-size: 1.5rem; }
-            .nav-links a { font-size: 0.85rem; margin-left: 30px; }
-            .content { padding: 60px 20px; }
-            h1 { font-size: 4rem; }
-            .grid-team { 
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        }
-        /* СТИЛИ ДЛЯ ТАЙМЕРА */
-        .timer-wrapper {
-            padding: 20px 20px 0 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .timer-container {
-    background: #111115; /* Плотный фон вместо градиента */
-    border: 1px solid rgba(229, 192, 123, 0.3);
-    border-radius: 8px;
-    padding: 20px 30px;
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8); /* Тень для объема */
-}
-
-        .timer-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #a0a0a0;
-            margin-bottom: 15px;
-        }
-
-        .timer-clock {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .time-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .time-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #e5c07b; /* Наше золото */
-            line-height: 1;
-            margin-bottom: 5px;
-            text-shadow: 0 0 15px rgba(229, 192, 123, 0.3);
-        }
-
-        .time-label {
-            font-size: 0.7rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Адаптация для маленьких экранов */
-        @media (max-width: 400px) {
-            .time-number { font-size: 2rem; }
-            .timer-clock { gap: 10px; }
-        }
-        /* СТИЛИ ДЛЯ РЕГЛАМЕНТА */
-        .regulations-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(229, 192, 123, 0.2);
-            border-left: 3px solid #e5c07b; /* Золотая полоса слева */
-            padding: 25px;
-            border-radius: 4px;
-            margin-top: 15px;
-        }
-
-        .regulations-list {
-            list-style: none; /* Убираем стандартные точки */
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .regulations-list li {
-            position: relative;
-            padding-left: 20px;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #ccc;
-        }
-
-        /* Кастомный золотой маркер */
-        .regulations-list li::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 8px;
-            width: 6px;
-            height: 6px;
-            background-color: #e5c07b;
-            border-radius: 50%; /* Делаем кружочек */
-            box-shadow: 0 0 8px rgba(229, 192, 123, 0.6); /* Легкое свечение */
+            .grid-team { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         }
     </style>
 </head>
 <body>
 
-       <nav>
-        <a href="/" class="logo">GAYO AWARDS</a>
+    <nav>
+        <a href="/" class="logo gold-gradient-text">GAYO AWARDS</a>
+        
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
+
         <div class="nav-links" id="mobile-menu">
             <a href="/">О премии</a>
-            <a href="/nominations">Номинации</a>
             <a href="/academy">GAYO Academy</a>
+            <a href="/nominations">Номинации</a>
         </div>
     </nav>
+
     <!-- ТАЙМЕР -->
     <div class="timer-wrapper">
         <div class="timer-container">
-            <p class="timer-title">До закрытия набора</p>
+            <p class="timer-title">До закрытия голосования</p>
             <div class="timer-clock">
                 <div class="time-box">
                     <span id="days" class="time-number">00</span>
@@ -270,31 +190,30 @@
             </div>
         </div>
     </div>
-    
+
     <div class="content">
         {% block content %}{% endblock %}
     </div>
-    <script>
-        // УКАЖИ ЗДЕСЬ ДАТУ ОКОНЧАНИЯ ГОЛОСОВАНИЯ (Год-Месяц-ДеньTЧасы:Минуты:Секунды)
-        const deadline = new Date("2026-12-04T21:00:00").getTime();
 
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        const deadline = new Date("2026-12-04T21:00:00").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = deadline - now;
-
             if (distance < 0) {
                 clearInterval(timer);
                 document.querySelector('.timer-clock').innerHTML = "<h2 style='color:#e5c07b; font-family: Cormorant Garamond'>Голосование завершено</h2>";
                 return;
             }
-
-            // Вычисляем дни, часы, минуты и секунды
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Добавляем ноль впереди, если число меньше 10 (чтобы было 09, а не 9)
             document.getElementById("days").innerText = days < 10 ? "0" + days : days;
             document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
             document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
