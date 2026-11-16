@@ -9,7 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            /* Темный градиент как изначально */
+            /* Темный градиент */
             background: radial-gradient(circle at top, #1c1e26 0%, #08080a 100%);
             color: #f8f8f8;
             font-family: 'Montserrat', sans-serif;
@@ -78,9 +78,7 @@
 
         /* МОБИЛЬНАЯ ВЕРСИЯ */
         @media (max-width: 768px) {
-            nav {
-                flex-direction: row-reverse;
-            }
+            nav { flex-direction: row-reverse; }
             .hamburger { display: flex; }
             .nav-links {
                 display: none;
@@ -114,10 +112,8 @@
             color: #e5c07b;
             margin-bottom: 15px;
             font-weight: 600;
+            text-align: left; /* Выравнивание заголовков по левому краю */
         }
-
-        /* ТЕКСТ ПО ЦЕНТРУ */
-        .text-center { text-align: center; }
 
         /* ГРАДИЕНТНЫЙ ТЕКСТ */
         .gold-gradient-text {
@@ -129,7 +125,7 @@
             display: inline-block;
         }
 
-        /* КНОПКИ */
+        /* КНОПКИ (по центру) */
         .btn-wrapper { text-align: center; margin: 30px 0; }
         .btn {
             display: inline-block;
@@ -156,14 +152,14 @@
         .time-number { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: #e5c07b; line-height: 1; margin-bottom: 5px; text-shadow: 0 0 15px rgba(229, 192, 123, 0.3); }
         .time-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* СЕТКА КАРТОЧЕК (ДЛЯ КОМАНДЫ И ЦЕННОСТЕЙ) */
+        /* СЕТКА */
         .grid-container { 
             display: grid; 
             grid-template-columns: 1fr; 
             gap: 20px; 
             width: 100%;
             margin-bottom: 40px;
-            margin-top: 30px;
+            margin-top: 20px;
         }
         
         @media (min-width: 768px) {
@@ -177,6 +173,7 @@
             border-radius: 4px; 
             display: flex;
             flex-direction: column;
+            text-align: left; /* Карточки тоже выровнены по левому краю */
         }
         
         .card-accent { border-left: 3px solid #e5c07b; }
