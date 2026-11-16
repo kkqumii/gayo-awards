@@ -59,7 +59,15 @@
         .nav-links a:hover {
             color: #e5c07b;
         }
-
+        
+        .gold-gradient-text {
+            background: linear-gradient(90deg, #e5c07b, #f3d79b); /* Тот же градиент, что и на полосках */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            display: inline-block; /* Важно, чтобы градиент применялся именно к тексту */
+        }
         /* КОНТЕНТ */
         .content {
             flex: 1;
