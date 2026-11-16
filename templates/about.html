@@ -1,90 +1,91 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div style="margin-bottom: 40px;">
+    <!-- Заголовок -->
+    <div style="text-align: center; margin-bottom: 40px;">
         <p style="color: #888; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;">Music Awards 2026</p>
-        <h1 class="gold-gradient-text" style="font-size: 3.5rem; margin-bottom: 10px;">GAYO Music Awards</h1>
-        <p style="font-style: italic; color: #e5c07b; font-size: 1.1rem;">Празднование выдающихся достижений в онлайн-индустрии</p>
+        <h1>GAYO Music Awards</h1>
+        <p style="font-style: italic; color: #e5c07b;">Празднование выдающихся достижений в онлайн-индустрии</p>
     </div>
 
     <!-- О премии -->
     <h2>О премии</h2>
-    <p style="line-height: 1.8; color: #ccc; margin-bottom: 20px; font-size: 1rem;">
-        GAYO AWARDS — это музыкальная премия, на которой награждаются выдающиеся достижения в мире онлайн-индустрии и создатели авторского контента.
-    </p>
+    <p>GAYO AWARDS — это музыкальная премия, на которой награждаются выдающиеся достижения в мире онлайн-индустрии и создатели авторского контента.</p>
     
-    <h3>Наша миссия</h3>
-    <p style="line-height: 1.8; color: #ccc; margin-bottom: 30px; font-size: 1rem;">
-        Развитие культуры и поддержка высокого качества музыкального исполнения и современного искусства в цифровом пространстве.
-    </p>
+    <h3 style="margin-top: 20px;">Наша миссия</h3>
+    <p>Развитие культуры и поддержка высокого качества музыкального исполнения и современного искусства в цифровом пространстве.</p>
 
-    <!-- Плашка по центру -->
-    <div class="btn-wrapper">
-        <a href="/nominations" class="btn">Перейти к номинациям</a>
-    </div>
+    <h3 style="margin-top: 20px;">Награда</h3>
+    <p>Победители в каждой категории получают денежный приз в размере 400₽ и признание как лидеры индустрии.</p>
 
-    <!-- Команда -->
-    <h2 style="margin-top: 50px;">Наша команда</h2>
-    <p style="margin-bottom: 20px; color: #ccc;">Познакомьтесь со стаффом Gayo Music Awards</p>
+    <a href="/nominations" class="btn" style="margin-bottom: 40px;">Перейти к номинациям</a>
+
+        <!-- Команда -->
+    <h2>Наша команда</h2>
+    <p style="margin-bottom: 25px;">Познакомьтесь с профессионалами Gayo Music Awards</p>
     
-    <div class="grid-container">
+    <div class="grid-team">
         <div class="card">
             <h3>Reo</h3>
-            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Основатель</p>
-            <p style="color: #ccc;">Основатель, креативный и исполнительный продюсер INKIGAYO OI.</p>
+            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px;">Основатель</p>
+            <p>Основатель, креативный и исполнительный продюсер INKIGAYO OI.</p>
         </div>
         <div class="card">
             <h3>Arisu</h3>
-            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Исполнительный продюсер</p>
-            <p style="color: #ccc;">Основатель, креативный и исполнительный продюсер ранее известных проектов как AMW AWARDS, BBA, артист UNESCO.</p>
+            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px;">Исполнительный продюсер</p>
+            <p>Основатель, креативный и исполнительный продюсер ранее известных проектов как AMW AWARDS, BBA, артист UNESCO.</p>
         </div>
         <div class="card">
             <h3>Dora</h3>
-            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Разработчик</p>
-            <p style="color: #ccc;">Участница популярной группы RENAISSANCE, более 3 лет в онлайн-индустрии, программист и разработчик инноваций INKIGAYO OI.</p>
+            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px;">Разработчик</p>
+            <p>Участница популярной группы RENAISSANCE, более 3 лет в онлайн-индустрии, программист и разработчик инноваций INKIGAYO OI.</p>
         </div>
         <div class="card">
             <h3>Luly</h3>
-            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Голос проекта</p>
-            <p style="color: #ccc;">Журналист и медиа-эксперт, победитель конкурса ТАСС, 3 года в онлайн-индустрии.</p>
+            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px;">Голос проекта</p>
+            <p>Журналист и медиа-эксперт, победитель конкурса ТАСС, 3 года в онлайн-индустрии.</p>
         </div>
         <div class="card">
             <h3>Jenna</h3>
-            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Продюсер</p>
-            <p style="color: #ccc;">Продюсер таких групп как KAZAMI, ROUGE, NUNSONG, основатель JUMP TEAM, администратор LOUDX, HANDS UP AWARDS.</p>
+            <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px;">Продюсер</p>
+            <p>Продюсер таких групп как KAZAMI, ROUGE, NUNSONG, основатель JUMP TEAM, администратор LOUDX, HANDS UP AWARDS.</p>
         </div>
     </div>
 
     <!-- Ценности -->
-    <h2 style="margin-top: 50px;">Наши ценности</h2>
-    <div class="grid-container">
-        <div class="card card-accent">
-            <h3>Честность и прозрачность</h3>
-            <p style="color: #ccc;">Справедливая оценка и открытые процессы.</p>
-        </div>
-        <div class="card card-accent">
-            <h3>Инновации и развитие</h3>
-            <p style="color: #ccc;">Расширяем границы в музыке и контенте.</p>
-        </div>
-        <div class="card card-accent">
-            <h3>Уважение к искусству</h3>
-            <p style="color: #ccc;">Ценим креативность и художественное мастерство.</p>
-        </div>
-        <div class="card card-accent">
-            <h3>Инклюзивность</h3>
-            <p style="color: #ccc;">Приветствуем все голоса и перспективы.</p>
-        </div>
+    <h2>Наши ценности</h2>
+    <div class="card" style="border-left: 3px solid #e5c07b;">
+        <h3>Честность и прозрачность</h3>
+        <p>Справедливая оценка и открытые процессы.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #e5c07b;">
+        <h3>Инновации и развитие</h3>
+        <p>Расширяем границы в музыке и контенте.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #e5c07b;">
+        <h3>Уважение к искусству</h3>
+        <p>Ценим креативность и художественное мастерство.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #e5c07b;">
+        <h3>Инклюзивность</h3>
+        <p>Приветствуем все голоса и перспективы.</p>
     </div>
 
-    <!-- РЕГЛАМЕНТ -->
+        <!-- РЕГЛАМЕНТ -->
     <h2 style="margin-top: 50px;">Регламент</h2>
-    <div class="card card-accent" style="padding: 30px;">
-        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px;">
-            <li>Период, за который учитываются достижения: 1 декабря 2025 года-1 декабря 2026 года. В премии учитываются работы, проекты и достижения, которые относятся к установленному периоду награждения.</li>
-            <li>Период подачи заявок: 4-6 декабря 2026 года. Артисты, продюсеры, команды и проекты могут представить свои работы для участия в GAYO AWARDS.</li>
+    
+    <div class="regulations-box">
+        <ul class="regulations-list">
+            <li>Период, за который учитываются достижения: 1 декабря 2025 года – 1 декабря 2026 года. В премии учитываются работы, проекты и достижения, которые относятся к установленному периоду награждения.</li>
+            
+            <li>Период подачи заявок: 4–6 декабря 2026 года. Артисты, продюсеры, команды и проекты могут представить свои работы для участия в GAYO AWARDS.</li>
+            
             <li>Объявление номинантов: 7 декабря 2026 года. GAYO официально объявляет всех номинантов GAYO AWARDS 2026 по итогу голосования зрителей.</li>
-            <li>Голосование аудитории: 7-20 декабря 2026 года. Аудитория определяет своих фаворитов в номинациях, где предусмотрено зрительское голосование.</li>
-            <li>GAYO AWARDS 2026: 26-27 декабря 2026 года. Главная церемония GAYO AWARDS. В этот день объявляются победители всех номинаций и вручаются награды лучшим артистам, проектам и специалистам онлайн-индустрии за 2026 год.</li>
+            
+            <li>Аудитория голосует: 7–20 декабря 2026 года. Аудитория определяет своих фаворитов в номинациях, где предусмотрено зрительское голосование.</li>
+            
+            <li>GAYO AWARDS 2026: 26–27 декабря 2026 года. Главная церемония GAYO AWARDS. В этот день объявляются победители всех номинаций и вручаются награды лучшим артистам, проектам и специалистам онлайн-индустрии за 2026 год.</li>
         </ul>
     </div>
+
 {% endblock %}
