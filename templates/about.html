@@ -1,52 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <!-- Заголовок -->
-    <div style="text-align: center; margin-bottom: 40px;">
+    <div class="text-center" style="margin-bottom: 40px;">
         <p style="color: #888; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 10px;">Music Awards 2026</p>
-        <h1>GAYO Music Awards</h1>
-        <p style="font-style: italic; color: #e5c07b;">Празднование выдающихся достижений в онлайн-индустрии</p>
+        <h1 class="gold-gradient-text" style="font-size: 3.5rem; margin-bottom: 10px;">GAYO Music Awards</h1>
+        <p style="font-style: italic; color: #e5c07b; font-size: 1.1rem;">Празднование выдающихся достижений в онлайн-индустрии</p>
     </div>
 
     <!-- О премии -->
-    <h2>О премии</h2>
-    <p>GAYO AWARDS — это музыкальная премия, на которой награждаются выдающиеся достижения в мире онлайн-индустрии и создатели авторского контента.</p>
+    <h2 class="text-center">О премии</h2>
+    <p class="text-center" style="line-height: 1.8; color: #ccc; margin-bottom: 20px; font-size: 1rem;">GAYO AWARDS — это музыкальная премия, на которой награждаются выдающиеся достижения в мире онлайн-индустрии и создатели авторского контента.</p>
     
-    <h3 style="margin-top: 20px;">Наша миссия</h3>
-    <p>Развитие культуры и поддержка высокого качества музыкального исполнения и современного искусства в цифровом пространстве.</p>
+    <h3 class="text-center">Наша миссия</h3>
+    <p class="text-center" style="line-height: 1.8; color: #ccc; margin-bottom: 30px; font-size: 1rem;">Развитие культуры и поддержка высокого качества музыкального исполнения и современного искусства в цифровом пространстве.</p>
 
-    <a href="/nominations" class="btn" style="margin-bottom: 40px;">Перейти к номинациям</a>
+    <div class="btn-wrapper">
+        <a href="/nominations" class="btn">Перейти к номинациям</a>
+    </div>
 
-       <div class="grid-container">
-        <!-- Reo -->
+    <!-- Команда -->
+    <h2 class="text-center" style="margin-top: 50px;">Наша команда</h2>
+    <p class="text-center" style="margin-bottom: 20px; color: #ccc;">Познакомьтесь со стаффом Gayo Music Awards</p>
+    
+    <div class="grid-container">
         <div class="card">
             <h3>Reo</h3>
             <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Основатель</p>
             <p style="color: #ccc;">Основатель, креативный и исполнительный продюсер INKIGAYO OI.</p>
         </div>
-
-        <!-- Arisu -->
         <div class="card">
             <h3>Arisu</h3>
             <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Исполнительный продюсер</p>
             <p style="color: #ccc;">Основатель, креативный и исполнительный продюсер ранее известных проектов как AMW AWARDS, BBA, артист UNESCO.</p>
         </div>
-
-        <!-- Dora -->
         <div class="card">
             <h3>Dora</h3>
             <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Разработчик</p>
             <p style="color: #ccc;">Участница популярной группы RENAISSANCE, более 3 лет в онлайн-индустрии, программист и разработчик инноваций INKIGAYO OI.</p>
         </div>
-
-        <!-- Luly -->
         <div class="card">
             <h3>Luly</h3>
             <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Голос проекта</p>
             <p style="color: #ccc;">Журналист и медиа-эксперт, победитель конкурса ТАСС, 3 года в онлайн-индустрии.</p>
         </div>
-
-        <!-- Jenna -->
         <div class="card">
             <h3>Jenna</h3>
             <p style="color: #e5c07b; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px;">Продюсер</p>
@@ -55,7 +51,7 @@
     </div>
 
     <!-- Ценности -->
-    <h2 style="margin-top: 50px; text-align: center;">Наши ценности</h2>
+    <h2 class="text-center" style="margin-top: 50px;">Наши ценности</h2>
     <div class="grid-container">
         <div class="card card-accent">
             <h3>Честность и прозрачность</h3>
@@ -76,7 +72,7 @@
     </div>
 
     <!-- РЕГЛАМЕНТ -->
-    <h2 style="margin-top: 50px; text-align: center;">Регламент</h2>
+    <h2 class="text-center" style="margin-top: 50px;">Регламент</h2>
     <div class="card card-accent" style="padding: 30px;">
         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px;">
             <li>Период, за который учитываются достижения: 1 декабря 2025 года-1 декабря 2026 года. В премии учитываются работы, проекты и достижения, которые относятся к установленному периоду награждения.</li>
