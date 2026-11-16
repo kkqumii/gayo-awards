@@ -43,8 +43,12 @@
 
     <style>
         .accordion-container { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        .accordion-item { border: 1px solid rgba(229, 192, 123, 0.2); background: rgba(255, 255, 255, 0.02); border-radius: 4px; overflow: hidden; }
-        
+        .accordion-item { 
+    border: 1px solid rgba(229, 192, 123, 0.3); 
+    background: #111115; /* Плотный темный цвет (почти черный) */
+    border-radius: 4px; 
+    overflow: hidden; 
+}        
         .accordion-header {
             width: 100%; display: flex; justify-content: space-between; align-items: center;
             padding: 15px 20px; background: transparent; border: none; color: #fff;
@@ -58,12 +62,22 @@
             padding: 10px; border-radius: 4px; min-width: 50px; text-align: center;
         }
         .nom-title { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: #fff; }
-        .nom-subtitle { display: block; font-size: 0.75rem; margin-top: 2px; }
-        
+.nom-subtitle { 
+    display: block; 
+    font-size: 0.75rem; 
+    margin-top: 2px; 
+    color: #ccc; /* Сделали светлее */
+}        
         .icon { color: #e5c07b; font-size: 0.8rem; transition: transform 0.3s; }
         .accordion-header.active .icon { transform: rotate(180deg); }
 
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: rgba(0, 0, 0, 0.3); }
+        .accordion-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.4s ease-out; 
+            background: #0a0a0c; /* Сделали плотный темный фон */
+            border-top: 1px solid rgba(229, 192, 123, 0.1);
+        }
         .criteria-list { padding: 20px; }
 
         .criteria-title { font-size: 0.85rem; color: #e5c07b; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
