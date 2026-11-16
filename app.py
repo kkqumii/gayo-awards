@@ -225,6 +225,10 @@ def vote(nomination):
 def academy():
     return render_template('academy.html')
 
+@app.route('/criteria')
+def criteria():
+    return render_template('criteria.html')
+
 # Список админов: логин - пароль
 ADMINS = {
     "Dora": "doradura123",
