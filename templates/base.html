@@ -340,15 +340,13 @@
 
             <nav>
         <a href="/" class="logo">GAYO AWARDS</a>
-        
-        <!-- Кнопка-бургер (видна только на телефонах) -->
+	<!-- Кнопка-бургер -->
         <div class="menu-toggle" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <!-- Само меню -->
         <div class="nav-links" id="mobile-menu">
             <a href="/">О премии</a>
 	    <a href="/nominations">Номинации</a>
@@ -360,7 +358,7 @@
     <!-- ТАЙМЕР -->
     <div class="timer-wrapper">
         <div class="timer-container">
-            <p class="timer-title">До закрытия голосования</p>
+            <p class="timer-title">До закрытия набора</p>
             <div class="timer-clock">
                 <div class="time-box">
                     <span id="days" class="time-number">00</span>
@@ -386,19 +384,48 @@
         {% block content %}{% endblock %}
     </div>
 
-    <script>
-        // УКАЖИ ЗДЕСЬ ДАТУ ОКОНЧАНИЯ ГОЛОСОВАНИЯ (Год-Месяц-ДеньTЧасы:Минуты:Секунды)
-        const deadline = new Date("2026-12-04T21:00:00").getTime();
+        <script>
+        // ДАТА КОНЦА НАБОРА ЗАЯВОК (6 декабря 2026, 23:59)
+        const deadlineSubmissions = new Date("2026-12-06T23:59:59").getTime();
+        // ДАТА КОНЦА ГОЛОСОВАНИЯ (20 декабря 2026, 23:59)
+        const deadlineVoting = new Date("2026-12-20T23:59:59").getTime();
 
         const timer = setInterval(function() {
             const now = new Date().getTime();
-            const distance = deadline - now;
+            
+            let targetDate;
+            let titleText;
+            let isClosed = false;
 
-            if (distance < 0) {
+            // Если время ДО 7 декабря — считаем до конца набора
+            if (now < deadlineSubmissions) {
+                targetDate = deadlineSubmissions;
+                titleText = "До конца набора";
+            } 
+            // Если время ПОСЛЕ 7 декабря, но ДО 20 декабря - считаем до конца голосования
+            else if (now < deadlineVoting) {
+                targetDate = deadlineVoting;
+                titleText = "До конца голосования";
+            } 
+            // Если время вышло
+            else {
+                isClosed = true;
+            }
+
+            // Меняем заголовок таймера
+            const titleElement = document.querySelector('.timer-title');
+            if (titleElement) {
+                titleElement.innerText = isClosed ? "Голосование завершено" : titleText;
+            }
+
+            if (isClosed) {
                 clearInterval(timer);
                 document.querySelector('.timer-clock').innerHTML = "<h2 style='color:#e5c07b; font-family: Cormorant Garamond'>Голосование завершено</h2>";
                 return;
             }
+
+            // Считаем оставшееся время
+            const distance = targetDate - now;
 
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -410,12 +437,6 @@
             document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
         }, 1000);
-    </script>
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('active');
-        }
     </script>
 </body>
 </html>
